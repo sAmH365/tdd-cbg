@@ -1,4 +1,4 @@
-package chap02.payment;
+package chap03.payment;
 
 import java.time.LocalDate;
 

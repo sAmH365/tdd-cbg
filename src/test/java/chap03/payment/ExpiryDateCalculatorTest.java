@@ -1,7 +1,9 @@
-package chap02.payment;
+package chap03.payment;
 
 import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ExpiryDateCalculatorTest {
@@ -93,13 +95,101 @@ public class ExpiryDateCalculatorTest {
     assertExpiryDate(payData2, LocalDate.of(2025, 8, 1));
   }
 
-//  private void assertExpiryDate(LocalDate billingDate, int payAmount, LocalDate expectedExpiryDate) {
-//    LocalDate realExpiryDate = cal.calculateExpiryDate(billingDate, payAmount);
-//    assertEquals(expectedExpiryDate, realExpiryDate);
-//  }
+  @Test
+  void 첫_납부일과_만료일_일자가_다를때_이만원_이상_납부() {
+    PayData payData1 = PayData.builder()
+        .firstBillingDate(LocalDate.of(2025, 1, 31))
+        .billingDate(LocalDate.of(2025, 2, 28))
+        .payAmount(20_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2025, 4, 30));
+
+    PayData payData2 = PayData.builder()
+        .firstBillingDate(LocalDate.of(2025, 1, 31))
+        .billingDate(LocalDate.of(2025, 2, 28))
+        .payAmount(40_000)
+        .build();
+    assertExpiryDate(payData2, LocalDate.of(2025, 6, 30));
+
+    PayData payData3 = PayData.builder()
+        .firstBillingDate(LocalDate.of(2025, 3, 31))
+        .billingDate(LocalDate.of(2025, 4, 30))
+        .payAmount(30_000)
+        .build();
+    assertExpiryDate(payData3, LocalDate.of(2025, 7, 31));
+  }
+
+  @Test
+  void 십만원을_납부하면_1년_제공() {
+    PayData payData1 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(100_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2026, 1, 28));
+  }
+
+  @Test
+  void 십만원이상을_납부하면_1년에더해서_만원마다_1개월씩제공() {
+    PayData payData1 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(130_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2026, 4, 28));
+
+    PayData payData2 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(140_000)
+        .build();
+    assertExpiryDate(payData2, LocalDate.of(2026, 5, 28));
+
+    PayData payData3 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(170_000)
+        .build();
+    assertExpiryDate(payData3, LocalDate.of(2026, 8, 28));
+  }
+
+  @Test
+  void 이십만원이상을납부하면_2년에더해서_만원마다_1개월씩_제공() {
+    PayData payData1 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(200_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2027, 1, 28));
+
+    PayData payData2 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(230_000)
+        .build();
+    assertExpiryDate(payData2, LocalDate.of(2027, 4, 28));
+  }
+
+  @Test
+  void 삼십만원단위로제공테스트() {
+    PayData payData1 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(300_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2028, 1, 28));
+
+    PayData payData2 = PayData.builder()
+        .billingDate(LocalDate.of(2025, 1, 28))
+        .payAmount(350_000)
+        .build();
+    assertExpiryDate(payData2, LocalDate.of(2028, 6, 28));
+  }
+
+  @Test
+  void 윤달마지막날_10만원납부() {
+    PayData payData1 = PayData.builder()
+        .billingDate(LocalDate.of(2024, 2, 29))
+        .payAmount(100_000)
+        .build();
+    assertExpiryDate(payData1, LocalDate.of(2025, 2, 28));
+  }
 
   private void assertExpiryDate(PayData data, LocalDate expectedExpiryDate) {
     LocalDate realExpiryDate = cal.calculateExpiryDate(data);
-    assertEquals(expectedExpiryDate, realExpiryDate);
+    Assertions.assertEquals(expectedExpiryDate, realExpiryDate);
   }
 }
