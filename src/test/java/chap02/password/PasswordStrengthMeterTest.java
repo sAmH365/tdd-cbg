@@ -1,9 +1,9 @@
-package chap02;
+package chap02.password;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import com.example.chap02.PasswordStrength;
-import com.example.chap02.PasswordStrengthMeter;
+import com.example.chap02.password.PasswordStrength;
+import com.example.chap02.password.PasswordStrengthMeter;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

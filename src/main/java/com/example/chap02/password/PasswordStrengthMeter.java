@@ -1,4 +1,4 @@
-package com.example.chap02;
+package com.example.chap02.password;
 
 public class PasswordStrengthMeter {
 
