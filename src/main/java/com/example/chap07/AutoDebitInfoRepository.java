@@ -1,12 +1,8 @@
 package com.example.chap07;
 
-public class AutoDebitInfoRepository {
+public interface AutoDebitInfoRepository {
 
-  public AutoDebitInfo findOne(String userId) {
-    return null;
-  }
+  AutoDebitInfo findOne(String userId);
 
-  public void save(AutoDebitInfo newInfo) {
-
-  }
+  void save(AutoDebitInfo newInfo);
 }
