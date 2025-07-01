@@ -14,6 +14,11 @@ public class Subscription {
     this.grade = grade;
   }
 
+  public Subscription(LocalDate expiryDate, Grade grade) {
+    this.expiryDate = expiryDate;
+    this.grade = grade;
+  }
+
   public String getUserId() {
     return userId;
   }

@@ -8,6 +8,8 @@ public class Product {
     this.id = id;
   }
 
+  public Product() {}
+
   public void setDefaultPoint(int defaultPoint) {
     this.defaultPoint = defaultPoint;
   }
